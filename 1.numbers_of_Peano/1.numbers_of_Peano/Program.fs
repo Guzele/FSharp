@@ -28,15 +28,11 @@ let peanoToInt p =
         | S p  -> count p num + 1
     count p 0
 
-let mult a b =
-    let rec sum_n_times res a b =
-        match b with
-        | Zero -> res
-        | S b  ->  sum_n_times ( plus res a ) a b   
+let rec mult a b =
     match a, b with
     | Zero, _   -> Zero
     |  _ , Zero -> Zero
-    | a , S b -> sum_n_times a a b
+    | a , S b -> plus a  (mult a b)
 
 let power a b = 
     let rec mult_n_times res a b =
@@ -52,6 +48,6 @@ let power a b =
 let main args = 
     let a  =  ( S ( S ( Zero ) ) ) 
     let b  =  S (a)
-    let c  =  power b a
-    printf  "%A\n" ( peanoToInt c )
+    let c  =  mult a b
+    printf  "%d\n" ( peanoToInt c )
     0
