@@ -1,0 +1,5 @@
+/home/guzel/Programming/homework/second_semester/a1_numbers_of_Peano/a1_numbers_of_Peano/obj/x86/Debug/.NETFramework,Version=v4.0.AssemblyAttribute.fs
+/home/guzel/Programming/homework/second_semester/a1_numbers_of_Peano/a1_numbers_of_Peano/bin/Debug/a1_numbers_of_Peano.exe.mdb
+/home/guzel/Programming/homework/second_semester/a1_numbers_of_Peano/a1_numbers_of_Peano/bin/Debug/a1_numbers_of_Peano.exe
+/home/guzel/Programming/homework/second_semester/a1_numbers_of_Peano/a1_numbers_of_Peano/obj/x86/Debug/a1_numbers_of_Peano.exe
+/home/guzel/Programming/homework/second_semester/a1_numbers_of_Peano/a1_numbers_of_Peano/obj/x86/Debug/a1_numbers_of_Peano.exe.mdb

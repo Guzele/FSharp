@@ -1,1 +1,0 @@
-/home/guzel/Programming/homework/second_semester/1.numbers_of_Peano/1.numbers_of_Peano/obj/x86/Debug/.NETFramework,Version=v4.0.AssemblyAttribute.fs

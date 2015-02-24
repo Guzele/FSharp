@@ -48,4 +48,4 @@ let main args =
     printf  "%d\n" ( peanoToInt c )
     let d  =  power a b
     printf  "%d\n" ( peanoToInt d )
-    0
+    0    
