@@ -1,0 +1,5 @@
+/home/guzel/Programming/homework/second_semester/a2_binary_search_tree/a2_binary_search_tree/obj/x86/Debug/.NETFramework,Version=v4.0.AssemblyAttribute.fs
+/home/guzel/Programming/homework/second_semester/a2_binary_search_tree/a2_binary_search_tree/bin/Debug/a2_binary_search_tree.exe.mdb
+/home/guzel/Programming/homework/second_semester/a2_binary_search_tree/a2_binary_search_tree/bin/Debug/a2_binary_search_tree.exe
+/home/guzel/Programming/homework/second_semester/a2_binary_search_tree/a2_binary_search_tree/obj/x86/Debug/a2_binary_search_tree.exe
+/home/guzel/Programming/homework/second_semester/a2_binary_search_tree/a2_binary_search_tree/obj/x86/Debug/a2_binary_search_tree.exe.mdb

@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{A6EBC9FC-72E4-44B2-9ABF-EC7B33A4C4CF}</ProjectGuid>
+    <ProjectGuid>{A6A08857-92A8-4192-B15E-49E5A8F95B07}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>binary_search_tree</RootNamespace>
-    <AssemblyName>1.binary_search_tree</AssemblyName>
+    <RootNamespace>a2_binary_search_tree</RootNamespace>
+    <AssemblyName>a2_binary_search_tree</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
