@@ -69,6 +69,12 @@ let main argv =
     a <- add a 8
     a <- add a 12
     a <- add a 18
-   // a <- remove_by_value a 4
-    cLR_print a
+    printf "LCR is " ; lCR_print a; printf "\n"
+    printf "LRC is " ; lRC_print a; printf "\n"
+    printf "CLR is " ; cLR_print a; printf "\n"
+    a <- remove_by_value a 7
+    printf "After removal\n"
+    printf "LCR is " ; lCR_print a; printf "\n"
+    printf "LRC is " ; lRC_print a; printf "\n"
+    printf "CLR is " ; cLR_print a; printf "\n"
     0 
