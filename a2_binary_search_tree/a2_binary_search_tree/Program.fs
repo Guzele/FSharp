@@ -26,46 +26,32 @@ let rec remove_by_value t x  =
         elif more = Nil then less
         else Node ( less, find_least_elem more num ,  remove_by_value more ( find_least_elem more num ) )
 // LCR               
-let rec lCR_to_string t =
+let rec lCR_print t =
     match t with
-    | Nil  -> "Tree is empty"
+    | Nil  -> printf ""
     | Node (left, num, right) -> 
-       let mutable sl = "" 
-       if (left <> Nil) then  sl <-( lCR_to_string left  + " ") 
-       let mutable sr =  ""
-       if right <> Nil then sr <- " " + lCR_to_string right 
-       sl + num.ToString () + sr
-     
-let rec lCR_print t =  t |> lCR_to_string
-                         |> printf "%s\n" 
-
+        lCR_print left
+        printf "%d " num
+        lCR_print right
+    
 // LRC
-let rec lRC_to_string t =
+let rec lRC_print t =
     match t with
-    | Nil  -> "Tree is empty"
+    | Nil  -> printf ""
     | Node (left, num, right) -> 
-       let mutable sl = "" 
-       if (left <> Nil) then  sl <-( lRC_to_string left  + " ") 
-       let mutable sr =  ""
-       if right <> Nil then sr <- lRC_to_string right + " "
-       sl + sr + num.ToString ()
-     
-let rec lRC_print t =  t |> lRC_to_string
-                         |> printf "%s\n" 
+        lRC_print left
+        lRC_print right
+        printf "%d " num
 
 // CLR
-let rec cLR_to_string t =
+let rec cLR_print t =
     match t with
-    | Nil  -> "Tree is empty"
+    | Nil  -> printf ""
     | Node (left, num, right) -> 
-       let mutable sl = "" 
-       if (left <> Nil) then  sl <- " " + cLR_to_string left   
-       let mutable sr =  ""
-       if right <> Nil then sr <-  " " + cLR_to_string right
-       num.ToString () + sl + sr 
-     
-let rec cLR_print t =  t |> cLR_to_string
-                         |> printf "%s\n" 
+        printf "%d " num
+        cLR_print left
+        cLR_print right
+         
 
 [<EntryPoint>]
 let main argv = 
@@ -83,6 +69,6 @@ let main argv =
     a <- add a 8
     a <- add a 12
     a <- add a 18
-    a <- remove_by_value a 4
-    lCR_print a
+   // a <- remove_by_value a 4
+    cLR_print a
     0 
