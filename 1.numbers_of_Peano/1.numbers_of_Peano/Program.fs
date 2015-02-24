@@ -34,15 +34,11 @@ let rec mult a b =
     |  _ , Zero -> Zero
     | a , S b -> plus a  (mult a b)
 
-let power a b = 
-    let rec mult_n_times res a b =
-        match b with
-        | Zero -> res
-        | S b  ->  mult_n_times ( mult res a ) a b      
+let rec power a b = 
     match a, b with
     | Zero , _ -> Zero
     | _ , Zero -> S Zero
-    | a , S b  -> mult_n_times a a b
+    | a , S b  -> mult a (power a b)
 
 [<EntryPoint>]
 let main args = 
@@ -50,4 +46,6 @@ let main args =
     let b  =  S (a)
     let c  =  mult a b
     printf  "%d\n" ( peanoToInt c )
+    let d  =  power a b
+    printf  "%d\n" ( peanoToInt d )
     0
