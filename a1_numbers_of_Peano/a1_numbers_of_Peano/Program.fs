@@ -1,5 +1,7 @@
 ﻿(* Numbers of Peano - first week homework
-   Author Guzel Garifullina *)
+   Author Guzel Garifullina 
+   Estimated time  1 hour
+   Real time       3 hours*)
 
 type Peano = Zero | S of Peano
 

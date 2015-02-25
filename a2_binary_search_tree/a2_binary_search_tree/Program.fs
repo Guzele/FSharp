@@ -1,5 +1,7 @@
 ﻿(* Binary Search Tree - first week homework
-   Author Guzel Garifullina 171*)
+   Author Guzel Garifullina 171
+   Estimated time 1 hour
+   real time      2 hours *)
 
 type Tree = Nil | Node of Tree * int * Tree
 
