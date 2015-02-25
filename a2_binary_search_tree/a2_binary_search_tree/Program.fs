@@ -57,26 +57,34 @@ let rec cLR_print t =
 
 [<EntryPoint>]
 let main argv = 
-    let mutable a = Nil
-    a <- add a 10
-    a <- add a 5
-    a <- add a 15
-    a <- add a 2
-    a <- add a 7
-    a <- add a 1
-    a <- add a 3
-    a <- add a 4
-    a <- add a 6
-    a <- add a 9
-    a <- add a 8
-    a <- add a 12
-    a <- add a 18
-    printf "LCR is " ; lCR_print a; printf "\n"
-    printf "LRC is " ; lRC_print a; printf "\n"
-    printf "CLR is " ; cLR_print a; printf "\n"
-    a <- remove_by_value a 7
-    printf "After removal\n"
-    printf "LCR is " ; lCR_print a; printf "\n"
-    printf "LRC is " ; lRC_print a; printf "\n"
-    printf "CLR is " ; cLR_print a; printf "\n"
-    0 
+    let mutable tree = Node (Node (Nil,1,Node (Nil,2,Nil)),3,Node (Node (Nil,4,Nil),7,Nil))
+    printf "First example \n %A \n" tree
+    printf " LCR is " ; lCR_print tree; printf "\n"
+    printf " LRC is " ; lRC_print tree; printf "\n"
+    printf " CLR is " ; cLR_print tree; printf "\n"
+
+    tree <- remove_by_value tree 3
+    printf "After removal 3\n %A \n" tree
+    tree <- add tree  5
+    printf "After removal 3 and addition 5\n %A \n" tree
+    tree <- add tree  8
+    tree <- add tree  6
+    tree <- add tree  0
+    printf "Add 8, 6, 0\n %A \n" tree
+    tree <- remove_by_value tree 7
+    printf "Delete 7\n %A \n" tree
+
+    0
+
+
+ (*   tree <- Node ( Node (Node (Node (Nil,1,Nil),2,Node (Nil,3,Node (Nil,4,Nil))),5, Node (Node (Nil,6,Nil),7,Node (Node (Nil,8,Nil),9,Nil))),10, Node (Node (Nil,12,Nil),15,Node (Nil,18,Nil)))
+    printf "Second example \n %A \n" tree
+    printf " LCR is " ; lCR_print tree; printf "\n"
+    printf " LRC is " ; lRC_print tree; printf "\n"
+    printf " CLR is " ; cLR_print tree; printf "\n"
+
+    tree <- remove_by_value tree 7
+    printf "After removal 7\n %A \n" tree
+
+    tree <- add tree  11
+    printf "After removal 7 and addition 11 \n %A \n" tree *)
