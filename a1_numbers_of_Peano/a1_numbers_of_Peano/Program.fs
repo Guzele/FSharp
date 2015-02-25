@@ -23,12 +23,10 @@ let rec minus a b =
     | S a, Zero -> S a
     | S a, S b  -> minus a b
 
-let peanoToInt p =
-    let  rec count p num = 
-        match p with
-        | Zero -> num
-        | S p  -> count p num + 1
-    count p 0
+let rec peanoToInt p =
+    match p with
+    | Zero -> 0
+    | S p  -> 1 + peanoToInt p
 
 let rec mult a b =
     match a, b with
