@@ -1,0 +1,6 @@
+(* type List.iter - second week homework
+   Author Guzel Garifullina 171
+   Estimated time 1 minute
+   real time      30 sec)
+ 
+val it : (('a -> unit) -> 'a list -> unit)
