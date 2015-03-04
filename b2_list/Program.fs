@@ -28,10 +28,7 @@ let map f l =
 
 //p(x) = a_0 + x(a_1 + x(a_2 + ... + x(a_{n-1} + a_n x)...))
 // [a_n; a_{n-1}; ..., a_1; a_0]
-let  Horner_rule l x =
-    match l with
-    | []       -> 0
-    | a_n :: l ->  List.fold (fun acc a -> a + x * acc) a_n l
+let  Horner_rule l x = List.fold (fun acc a -> a + x * acc) 0 l
 
 [<EntryPoint>]
 let main argv = 
