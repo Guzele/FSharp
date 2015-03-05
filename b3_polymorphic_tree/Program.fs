@@ -8,7 +8,10 @@
    real time      1 hour 
    fold
    Estimated time 30 minutes
-   real time      30 minutes  *)
+   real time      30 minutes + 1 hour
+   sum
+   Estimated time 30 minutes
+   real time      1 hour  *)
 
 
 type Tree<'A> = Nil | Node of Tree<'A> * 'A * Tree<'A>
@@ -21,10 +24,35 @@ let rec map f t =
 
 let rec fold f acc t =
     match t with
-    | Nil -> acc
+    | Nil -> acc 
     | Node (left, value, right) ->
-        let left_val = fold f (f acc value) left
+        let left_val = fold f (f acc (value)) left
         fold f left_val right
+
+let rec fold_opt f acc t =
+    match t with
+    | Nil -> f acc None
+    | Node (left, value, right) ->
+        let left_val = fold_opt f (f acc (Some value)) left
+        fold_opt f left_val right
+
+let inline sum_tree t = 
+    let inline sum_opt opt y =
+        match opt with
+        | None   -> Some y
+        | Some x -> Some ( x + y )
+    fold (sum_opt) None t
+
+(* the same but with option fold
+let inline sum_tree_opt t = 
+    let inline sum_opt opt y =
+        match opt, y with
+        | None, None      -> None
+        | None, _         -> y
+        | _, None         -> opt
+        | Some x, Some y  -> Some ( x + y )
+    fold_opt (sum_opt) None t *)
+
 
 
 
@@ -39,5 +67,8 @@ let main argv =
     printfn "Tree of float is %A" tree_float
     printfn "Multiply to 2 all elem %A" (map  (fun s -> s * 2.0) tree_float )
 
+    printfn "Result of sum tree of int is %A" (sum_tree tree_int)
+    printfn "Result of sum tree of float is %A" (sum_tree tree_float)
+    printfn "Empty tree sum is %O" (sum_tree Nil)
     0 
 
