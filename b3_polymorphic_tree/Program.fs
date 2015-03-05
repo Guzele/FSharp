@@ -11,7 +11,10 @@
    real time      30 minutes + 1 hour
    sum
    Estimated time 30 minutes
-   real time      1 hour  *)
+   real time      1 hour  
+   min
+   Estimated time 15 minutes
+   real time      10 minutes  *)
 
 
 type Tree<'A> = Nil | Node of Tree<'A> * 'A * Tree<'A>
@@ -53,22 +56,31 @@ let inline sum_tree_opt t =
         | Some x, Some y  -> Some ( x + y )
     fold_opt (sum_opt) None t *)
 
-
-
+let inline min_tree t = 
+    let inline min_opt opt y =
+        match opt with
+        | None   -> Some y
+        | Some x -> Some ( min x y )
+    fold (min_opt) None t
 
 [<EntryPoint>]
 let main argv = 
 
-    let tree_int = Node (Node (Nil,1,Node (Nil,2,Nil)),3,Node (Node (Nil,4,Nil),7,Nil))
+    let tree_int = Node (Node (Nil,1,Node (Nil,-2,Nil)),3,Node (Node (Nil,4,Nil),7,Nil))
     printfn "Tree of int is %A" tree_int
     printfn "Add 1 to all elem %A" (map  (fun s -> s + 1) tree_int )
 
-    let tree_float = Node (Node (Nil,1.0 ,Node (Nil,2.0 ,Nil)),3.0 ,Node (Node (Nil,4.0,Nil),7.0,Nil))
+    let tree_float = Node (Node (Nil,1.0 ,Node (Nil,-2.0 ,Nil)),3.0 ,Node (Node (Nil,4.0,Nil),7.0,Nil))
     printfn "Tree of float is %A" tree_float
-    printfn "Multiply to 2 all elem %A" (map  (fun s -> s * 2.0) tree_float )
+    printfn "Multiply to 2 all elem %A\n" (map  (fun s -> s * 2.0) tree_float )
 
     printfn "Result of sum tree of int is %A" (sum_tree tree_int)
     printfn "Result of sum tree of float is %A" (sum_tree tree_float)
-    printfn "Empty tree sum is %O" (sum_tree Nil)
+    printfn "Empty tree sum is %A\n" (sum_tree Nil) 
+
+    printfn "Minimum of int tree is %A " (min_tree tree_int)
+    printfn "Minimum of float tree is %A" (min_tree tree_float)
+    printfn "Empty tree min is %A\n" (min_tree Nil) 
+
     0 
 
