@@ -32,13 +32,6 @@ let rec fold f acc t =
         let left_val = fold f (f acc (value)) left
         fold f left_val right
 
-let rec fold_opt f acc t =
-    match t with
-    | Nil -> f acc None
-    | Node (left, value, right) ->
-        let left_val = fold_opt f (f acc (Some value)) left
-        fold_opt f left_val right
-
 let inline sum_tree t = 
     let inline sum_opt opt y =
         match opt with
@@ -46,15 +39,6 @@ let inline sum_tree t =
         | Some x -> Some ( x + y )
     fold (sum_opt) None t
 
-(* the same but with option fold
-let inline sum_tree_opt t = 
-    let inline sum_opt opt y =
-        match opt, y with
-        | None, None      -> None
-        | None, _         -> y
-        | _, None         -> opt
-        | Some x, Some y  -> Some ( x + y )
-    fold_opt (sum_opt) None t *)
 
 let inline min_tree t = 
     let inline min_opt opt y =
