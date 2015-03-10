@@ -14,7 +14,10 @@
    real time      1 hour  
    min
    Estimated time 15 minutes
-   real time      10 minutes  *)
+   real time      10 minutes
+   copy
+   Estimated time 1 hour
+   real time      1 hour *)
 
 
 type Tree<'A> = Nil | Node of Tree<'A> * 'A * Tree<'A>
@@ -42,10 +45,19 @@ let inline min_tree t =
         | Some x -> Some ( min x y )
     fold min_opt None t
 
+let copy t = 
+    let rec insert t x =
+        match t with
+        | Nil -> Node ( Nil, x, Nil )
+        | Node (less , num , more) -> 
+            if x < num then Node ( insert less x, num , more) 
+            else  Node (less, num, insert more x)
+    fold (fun acc elem -> insert acc elem) Nil t
+
 [<EntryPoint>]
 let main argv = 
 
-    let tree_int = Node (Node (Nil,1,Node (Nil,-2,Nil)),3,Node (Node (Nil,4,Nil),7,Nil))
+    let tree_int = Node (Node (Node (Nil,-2,Nil),1,Nil),3,Node (Node (Nil,4,Nil),7,Nil))
     printfn "Tree of int is %A" tree_int
     printfn "Add 1 to all elem %A" (map  (fun s -> s + 1) tree_int )
 
@@ -60,6 +72,9 @@ let main argv =
     printfn "Minimum of int tree is %A " (min_tree tree_int)
     printfn "Minimum of float tree is %A" (min_tree tree_float)
     printfn "Empty tree min is %A\n" (min_tree Nil) 
+
+    let cop = copy tree_int
+    printfn "Copy of int-tree is %A" cop
 
     0 
 
