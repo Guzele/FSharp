@@ -106,8 +106,11 @@ let main argv =
 
     let graph_l1 = new ListGraph(list) 
     let graph_l = graph_l1  :> IGraph 
-    printfn " There is a direct way from 2 to 4 %b %b" (graph_a.isWay 2 4)  (graph_l.isWay 2 4)   
-    printfn " 0 is connected with %A, %A" (connectedWith (graph_a, 0))  (connectedWith (graph_l, 0))
+    printfn " There is a direct way from 2 to 4 \n array graph output - %b \n list graph output - %b" 
+            (graph_a.isWay 2 4)  (graph_l.isWay 2 4)   
+    printfn "0 is connected with \n array graph output - %A, \n list graph output - %A"
+         (connectedWith (graph_a, 0))  (connectedWith (graph_l, 0))
 
-    printfn "0 is reachable from %A, %A" (reachableFrom (graph_a, 0))  (reachableFrom (graph_l, 0))
+    printfn "0 is reachable from \n array graph output - %A, \n list graph output - %A"
+         (reachableFrom (graph_a, 0))  (reachableFrom (graph_l, 0))
     0 
