@@ -6,26 +6,26 @@
  *)
 
 
-type IGraph<'A> = 
+type IGraph = 
     interface
         abstract length   : int
         ///only close neighbours
         abstract isWay    : int-> int -> bool
     end 
 
-type ArrayGraph<'A> (arr: bool [,]) =
+type ArrayGraph (arr: bool [,]) =
     class
         let n = Array2D.length1 arr 
-        interface IGraph<'A> with
+        interface IGraph with
             member this.length = n
             member this.isWay i j = arr.[i,j]
     end
 
-type ListGraph<'A> (arr : int list []) =
+type ListGraph (arr : int list []) =
     class
         let n = arr.Length 
 
-        interface IGraph<'A> with
+        interface IGraph with
             member this.length = n
             member this.isWay i j  =
                 let rec in_list i l  =
@@ -37,7 +37,7 @@ type ListGraph<'A> (arr : int list []) =
                          
     end
 
-let connectedWith (graph :IGraph<'A>, i) =
+let connectedWith (graph :IGraph, i) =
     let n = graph.length
     let array  = Array.create n false
     array.[i] <- true
@@ -57,7 +57,7 @@ let connectedWith (graph :IGraph<'A>, i) =
         if (array.[j] = true) then list <- j :: list
     list
 
-let reachableFrom (graph :IGraph<'A>, i) =
+let reachableFrom (graph :IGraph, i) =
     let n = graph.length
     let array  = Array.create n false
     array.[i] <- true
@@ -77,12 +77,12 @@ let reachableFrom (graph :IGraph<'A>, i) =
     list
 
 
-type ILabeledGraph<'A, 'B> =
+type ILabeledGraph<'A> =
     interface
-        inherit IGraph<'B>
+        inherit IGraph
         abstract isWayLab      : 'A -> 'A -> bool
-        abstract matchLabToNum : 'A -> 'B
-        abstract matchNumToLab : 'B -> 'A
+        abstract matchLabToNum : 'A -> int
+        abstract matchNumToLab : int -> 'A
     end
 
 [<EntryPoint>]
@@ -101,16 +101,13 @@ let main argv =
     printfn " The initial graph of array is %A\n" array
     printfn " The initial graph of list is %A\n" list
 
-    let graph_a1 = new ArrayGraph<int>(array) 
-    let graph_a = graph_a1  :> IGraph<int> 
+    let graph_a1 = new ArrayGraph(array) 
+    let graph_a = graph_a1  :> IGraph 
 
-    let graph_l1 = new ListGraph<int>(list) 
-    let graph_l = graph_l1  :> IGraph<int> 
+    let graph_l1 = new ListGraph(list) 
+    let graph_l = graph_l1  :> IGraph 
     printfn " There is a direct way from 2 to 4 %b %b" (graph_a.isWay 2 4)  (graph_l.isWay 2 4)   
     printfn " 0 is connected with %A, %A" (connectedWith (graph_a, 0))  (connectedWith (graph_l, 0))
 
     printfn "0 is reachable from %A, %A" (reachableFrom (graph_a, 0))  (reachableFrom (graph_l, 0))
-
     0 
-
-
