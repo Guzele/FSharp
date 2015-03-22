@@ -9,7 +9,7 @@ type List_ADT<'T when 'T: equality> = Nil | Cons of 'T * List_ADT<'T>
 
 type IList<'A> =
     interface
-       // abstract id : '_A with get, set
+       //abstract id : '_A with get, set
         abstract insTop : 'A -> unit
         abstract insEnd : 'A -> unit
         abstract insNum : 'A -> int -> unit
@@ -93,6 +93,61 @@ type List<'A when 'A: equality> () =
                 printfn "%A\n" this.id
     end      
 
+type ArrayList<'A when 'A: equality> () =
+    class
+        member val id  = [||] with set, get
+        interface IList<'A> with
+            member this.insTop x  = 
+                this.id <- Array.append [|x|] this.id
+            member this.insEnd x = 
+                this.id <- Array.append this.id [|x|]
+            member this.insNum x i =
+                let mas = this.id
+                let n = mas.Length
+                if  n < i 
+                then failwith "Error, not enoght elements in list"
+                else this.id <- Array.append (Array.sub mas 0 i) [|x|] 
+                     this.id <- Array.append this.id (Array.sub mas i (n - i ))
+            member this.delTop () =
+                let mas = this.id
+                let n = Array.length mas
+                match this.id with
+                | [| |] -> failwith "Error, not enoght elements in list"
+                |  _   ->  this.id <-  Array.sub mas 1 ( n - 1)
+            member this.delEnd () = 
+                let n = this.id.Length
+                match this.id with
+                | [||] -> failwith "Error, not enoght elements in list"
+                |  _   -> this.id <- Array.sub this.id 0 (n-1)
+            member this.delNum i = 
+                let mas = this.id
+                let n =  mas.Length
+                if  n < i 
+                then failwith "Error, not enoght elements in list"
+                else this.id <- Array.append 
+                            (Array.sub mas 0 i) (Array.sub mas (i + 1) (n - i - 1))
+            member this.find func = Array.find func this.id 
+            member this.head () =
+                match this.id with
+                | [||] -> failwith "Error, not enoght elements in list"
+                | _  ->  this.id.[0]
+            member this.last () = 
+                match this.id with
+                | [||] -> failwith "Error, not enoght elements in list"
+                | _  ->  this.id.[this.id.Length - 1]
+            member this.isEmpty() = (this.id = [||])
+            member this.concat (second: IList<'A> ) = 
+                let temp= new ArrayList<'A> ()
+                temp.id <- this.id
+                while second.isEmpty() = false do
+                    let x = second.head ()
+                    (temp:> IList<'A>).insEnd x
+                    second.delTop ()
+                this.id <- temp.id              
+            member this.printn () = 
+                printfn "%A\n" this.id
+    end      
+
 [<EntryPoint>]
 let main argv =
     let ls1= new List<int> ()
@@ -136,5 +191,48 @@ let main argv =
     printfn "The result is"
     ls.concat ls2
     ls.printn ()
+
+    printfn "\n\nNow check array!!!!"
+    let ar1= new ArrayList<int> ()
+    ar1.id <- [|4; 5; 1; 6; 7|]
+    printfn "Array at the beginning"
+    let ar = ar1:> IList<int>
+    ar.printn ()
+
+    printfn "Insert 10 to beginning"
+    ar.insTop 10
+    ar.printn ()
+
+    printfn "Insert 21 and 31 to the end"
+    ar.insEnd 21
+    ar.insEnd 31
+    ar.printn ()
+
+    printfn "Insert 13 to the third place (numeration from 0)"
+    ar.insNum 13 3
+    ar.printn ()
+
+    printfn "Delete head"
+    ar.delTop ()
+    ar.printn ()
+
+    printfn "Delete end"
+    ar.delEnd ()
+    ar.printn ()
+
+    printfn "Delete second elem"
+    ar.delNum 2
+    ar.printn ()
+
+    printfn "Find 1 find %d " (ar.find (fun x -> x = 1))
+
+    let ar_= new ArrayList<int> ()
+    ar_.id <- [| 1; 3; 6; 7|]
+    let ar2 = ar_:> IList<int>
+    printfn "Check concat \n The second array is"
+    ar2.printn ()
+    printfn "The result is"
+    ar.concat ar2
+    ar.printn ()
 
     0     
