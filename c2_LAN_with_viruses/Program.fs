@@ -32,6 +32,7 @@ type ILAN =
         /// number of computers
         abstract Init         : unit -> unit
         abstract Number       : int
+        /// shows is in LAN unaffected computers
         abstract Alive        : bool with get, set
         ///only close neighbours
         abstract IsWay        : int  -> int -> bool
@@ -48,13 +49,13 @@ type LAN (net : bool [,] , os_arr: string array) =
         let victims_array = Array.create  n false
 
         static let rand = new System.Random()
+        ///list of computers that will be attackted in the next step
         let mutable victims_list  = []
    
         interface ILAN with
             member this.Init () =
                 let id_infected = (rand.Next () ) % (n - 1)
                 do computers.[id_infected].Infected <- true
-                do printfn "Infected %d" id_infected 
                 victims_list  <- (this :> ILAN).HealthyNeigh id_infected
             member this.Number = n
             member val Alive = true with get, set
@@ -67,35 +68,28 @@ type LAN (net : bool [,] , os_arr: string array) =
                     then neigh <- j :: neigh
                          victims_array.[j] <- true     
                     else ()
-                do printfn "Healthy neighbours %A" neigh
                 neigh
-            member this.VirusAttack () =
-               do printfn "\nVirus attack" 
+            member this.VirusAttack () = 
                let rec virus_attack (victims_list : int list)  = 
                    let attack () = (rand.Next () ) % 101
                    match victims_list with
                    | [] -> [] 
                    | i :: victims_list -> 
-                       let attack1 = attack ()
-                       do printfn "Computer %d, defence %d, attack %d" i (computers.[i].Defence) attack1  
+                       let attack1 = attack ()  
                        if (attack1  > computers.[i].Defence)
-                        then computers.[i].Infected <- true
-                             do printfn "Virus won " 
+                        then computers.[i].Infected <- true 
                              ((this :> ILAN).HealthyNeigh i) @ (virus_attack victims_list) 
-                        else 
-                            do printfn "Bad try"
-                            i :: (virus_attack victims_list)
+                        else i :: (virus_attack victims_list)
                victims_list <- virus_attack victims_list 
                if (victims_list = [])
                    then (this :> ILAN).Alive <- false
-               do printfn "Next victims list %A" victims_list
             member this.PrintState ()=
-               let os_name i =
+               let make_os_name i =
                    match (computers.[i]).Infected with
                    | true -> Char.ToString (os_arr.[i].[0])  + "!"
                    | _    -> Char.ToString (os_arr.[i].[0])  + " " 
 
-               let os_names = Array.init  n os_name 
+               let os_names = Array.init  n make_os_name 
                let format = """
                 {0}------{1}      {2}------ {3}
                 |       |       |        |
@@ -105,6 +99,7 @@ type LAN (net : bool [,] , os_arr: string array) =
                        /   \  /    
                        {8}---{9}"""  
                let names = Array.map (fun x -> x:>obj) os_names
+               do printfn "System state"
                System.Console.WriteLine (String.Format(format, names))
         
     end
@@ -134,10 +129,5 @@ let main argv =
     while net.Alive do
         net.VirusAttack ()
         net.PrintState ()
-
-       
-    0 
-
-
-
-        
+            
+    0        
