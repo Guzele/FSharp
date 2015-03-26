@@ -4,7 +4,7 @@
    real time      5 hours
  *)
 
-
+open System
 type IComputer = 
     interface
         abstract Os      : string
@@ -23,7 +23,6 @@ type Computer (os : string) =
          
         interface IComputer with
             member val Os = os 
-            
             member val Defence = os_to_defence os 
             member val Infected = false with get,set
     end
@@ -35,9 +34,10 @@ type ILAN =
         abstract Number       : int
         abstract Alive        : bool with get, set
         ///only close neighbours
-        abstract IsWay        : int -> int -> bool
-        abstract HealthyNeigh : int -> int list
-        abstract VirusAttack  : unit-> unit 
+        abstract IsWay        : int  -> int -> bool
+        abstract HealthyNeigh : int  -> int list
+        abstract VirusAttack  : unit -> unit
+        abstract PrintState   : unit -> unit
     end 
 
 type LAN (net : bool [,] , os_arr: string array) =
@@ -89,7 +89,24 @@ type LAN (net : bool [,] , os_arr: string array) =
                if (victims_list = [])
                    then (this :> ILAN).Alive <- false
                do printfn "Next victims list %A" victims_list
+            member this.PrintState ()=
+               let os_name i =
+                   match (computers.[i]).Infected with
+                   | true -> Char.ToString (os_arr.[i].[0])  + "!"
+                   | _    -> Char.ToString (os_arr.[i].[0])  + " " 
 
+               let os_names = Array.init  n os_name 
+               let format = """
+                {0}------{1}      {2}------ {3}
+                |       |       |        |
+                |       |       |        |
+                {4}------{5}------{6}       {7}
+                        / \    /           
+                       /   \  /    
+                       {8}---{9}"""  
+               let names = Array.map (fun x -> x:>obj) os_names
+               System.Console.WriteLine (String.Format(format, names))
+        
     end
 [<EntryPoint>]
 let main argv = 
@@ -113,7 +130,14 @@ let main argv =
                  "Windows"; "Android"|]
     let net = new LAN (array, list) :>ILAN
     net.Init ()
+    net.PrintState ()
     while net.Alive do
         net.VirusAttack ()
+        net.PrintState ()
+
+       
     0 
+
+
+
         
