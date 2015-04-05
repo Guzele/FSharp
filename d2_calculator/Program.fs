@@ -3,7 +3,7 @@
    Estimated time 2 hours
    real time      5 hours
  *)
-
+open NUnit.Framework
 open System
 
 type Char = Num of int | LB | RB | Op of char| Var of string
@@ -223,7 +223,8 @@ let rec treeToSolution context tree =
             |'^' -> 
                 let rec pow x y =
                     match y with
-                    | y when (y <= 0) -> 1
+                    | y when (y < 0) -> 0
+                    | 0              -> 1
                     | _        ->  x * (pow x (y - 1))
                 pow x y
             |_   -> failwith "Internal error"
@@ -258,20 +259,34 @@ let rec treeToSolution context tree =
     | Node (ch, tr1, tr2) -> operation ch (treeToSolution context tr1)(treeToSolution context tr2)
    
 
+[<TestCase ("0", Result = 0)>]
+[<TestCase ("13", Result = 13)>]
+[<TestCase ("(-13)", Result = -13)>]
+[<TestCase ("34 -45 +12", Result = 1)>]
+[<TestCase ("((-34) + 24) * (23 - 13)", Result = -100)>]
+[<TestCase ("(34 + 24) * (23 - 13)", Result = 580)>]
+[<TestCase ("((-34) - 24) / (23 - 13)", Result = -5)>]
+[<TestCase ("120 % 11 +5 ^ (-1)", Result = 10)>]
+[<TestCase ("120 % 11 +5 ^ (-1)^ 2", Result = 15)>]
+[<TestCase ("((120 % 11) +5 ^ (-1)^ (-2))", Result = 11)>]
+let calculate str = 
+    let context = ""
+    let list = scan str 
+    treeToSolution context (toTree list)
 
+[<TestCase ("0","fr = 3", Result = 0)>]
+[<TestCase ("13 + x", "x = -121", Result = -108)>]
+[<TestCase ("(-13)* x / xs", "xs = 8, x = 16", Result = -26)>]
+[<TestCase ("34 + arg + s1","arg = -45, s1 = 12", Result = 1)>]
+[<TestCase ("( x + y ) * (z11 - z )", "x = -34, y = 24, z11 = 23, z = 13",Result = -100)>]
+let ``calculate with context`` str context = 
+    let list = scan str 
+    treeToSolution context (toTree list)
 
 
 
 [<EntryPoint>]
 let main argv = 
-    let str = "1 + er8 ^ 2 - ((-35) / 40)"
-    let context = "er8 = 3"
-    let str1 = "1 -2 ^ 3  +1"
-    let list = scan str 
-    toTree list
-    let list1 = scan str1 
-    let f = toTree list 
-    treeToSolution context f 
-    //printfn "%A" argv
+
     0 
 
