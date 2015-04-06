@@ -3,10 +3,9 @@
    Estimated time 1 hour
    real time      2 hours
  *)
-
+open NUnit.Framework
 open System
 open System.IO
-
 
 let read  (input: string) =
     use stream = new StreamReader (input)
@@ -15,7 +14,6 @@ let read  (input: string) =
 let write (output : string) (ans : string) =
     use stream = new StreamWriter (output)
     stream.WriteLine ( ans)
-
 
 type Char = Num of int | LB | RB | Op of char| Var of string
 type Tree = Numb of int |Varb of string| Node of char * Tree * Tree
@@ -80,7 +78,6 @@ let scan (str : string) =
         i <- i + 1
     List.rev l
 
-
 let isCorrect str =
     let findType (x : Char) =
         match x with
@@ -112,7 +109,6 @@ type IStack<'T> =
     abstract member Pop  : 'T
     abstract member Push : 'T -> unit
 
-
 type Stack<'T when 'T : equality> () =
     interface IStack<'T> with
         member val Id = [] with get,set
@@ -125,7 +121,6 @@ type Stack<'T when 'T : equality> () =
                 x
         member this.Push x = 
             (this:> IStack<'T>).Id <- x :: (this:> IStack<'T>).Id
-
 
 let priority ch = 
     match ch with
@@ -177,22 +172,30 @@ let toPolish list =
     let l = context list
     List.rev l
 
+let rec polishToString list =
+    match list with
+    | [] -> ""
+    | x :: list ->
+        match x with
+        | Num x      ->  (string x)+ "\n"+ (polishToString list)   
+        | Var x      ->  x + "\n"+ (polishToString list)
+        | Op x       ->  (string x) + "\n"+ (polishToString list)
+        | _          ->   failwith "Error"
 let printPolish (output : string) list =
-    let rec polishToString list =
-        match list with
-        | [] -> ""
-        | x :: list ->
-            match x with
-            | Num x      ->  (string x)+ "\n"+ (polishToString list)   
-            | Var x      ->  x + "\n"+ (polishToString list)
-            | Op x       ->  (string x) + "\n"+ (polishToString list)
-            | _          ->   failwith "Error"
     write output ( polishToString list)
 
-
+[<TestCase ("0", Result = "0\n")>]
+[<TestCase ("13", Result = "13\n")>]
+[<TestCase ("(-13)", Result = "-13\n")>]
+[<TestCase ("1 + 2", Result = "1\n2\n+\n")>]
+[<TestCase ("34 -45 +12", Result = "34\n45\n-\n12\n+\n")>]
+[<TestCase ("((-34) + 24) * (23 - 13)", Result = "-34\n24\n+\n23\n13\n-\n*\n")>]
+[<TestCase ("120 % 11 + 5 ^ (-1)", Result = "120\n11\n%\n5\n-1\n^\n+\n")>]
+[<TestCase ("5 ^ (-1)^ (-2)", Result = "5\n-1\n-2\n^\n^\n")>]
+let calculate str = 
+    str |> scan |> toPolish |> polishToString
 
 [<EntryPoint>]
 let main argv = 
     read ("input.txt")|> scan |> toPolish |> printPolish "output.txt"
     0 
-
