@@ -94,14 +94,12 @@ let isCorrect str =
             | 4, (0| 1 | 3) -> isCor op list bra
             | _             -> false
     isCor 0 str 0
-
 type IStack<'T> =
     abstract member Id : list<'T> with get,set
     abstract member Empty: bool
     abstract member Pop  : 'T
     abstract member Push : 'T -> unit
-
-
+ 
 type Stack<'T when 'T : equality> () =
     interface IStack<'T> with
         member val Id = [] with get,set
@@ -164,8 +162,7 @@ let toPolish list =
                      stack.Push x
                      (context  list) @ cont
     context list
-
-
+  
 let toTree list =
     let oper = (new Stack<Char> ()) :> IStack<Char>
     let num  = (new Stack<Tree> ()) :> IStack<Tree>
@@ -262,6 +259,9 @@ let rec treeToSolution context tree =
 [<TestCase ("0", Result = 0)>]
 [<TestCase ("13", Result = 13)>]
 [<TestCase ("(-13)", Result = -13)>]
+[<TestCase ("3 ^ 1 ^ 2", Result = 3)>]
+[<TestCase ("1 - 2 - 3", Result =  -4)>]
+[<TestCase ("1 + 2 * 3 ^ 2", Result = 19)>]
 [<TestCase ("34 -45 +12", Result = 1)>]
 [<TestCase ("((-34) + 24) * (23 - 13)", Result = -100)>]
 [<TestCase ("(34 + 24) * (23 - 13)", Result = 580)>]
