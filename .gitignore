@@ -1,9 +1,10 @@
-
+*.exe*
+*.dll*
+*.xml
 *.userprefs
 *~
 bin
 obj
-AssemblyInfo.fs
 *packages/
 
 
