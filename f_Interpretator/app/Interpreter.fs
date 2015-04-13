@@ -4,32 +4,13 @@
 
 module Interpreter
 open System.IO
+open Stack
 open Expr
 open Stmt
 
-type IStack<'T> =
-    abstract member Id : list<'T> with get,set
-    abstract member Empty: bool
-    abstract member Pop  : 'T
-    abstract member Push : 'T -> unit
-    abstract member Rev  : unit
-
-type Stack<'T when 'T : equality> () =
-    interface IStack<'T> with
-        member val Id = [] with get,set
-        member this.Empty = (this:> IStack<'T>).Id = []
-        member this.Pop   = 
-            match (this:> IStack<'T>).Id with 
-            | []     -> failwith "Intrnal Error:Stack Pop"
-            | x :: l -> 
-                (this:> IStack<'T>).Id <- l
-                x
-        member this.Push x = 
-            (this:> IStack<'T>).Id <- x :: (this:> IStack<'T>).Id
-        member this.Rev  = 
-            (this:> IStack<'T>).Id <- List.rev ((this:> IStack<'T>).Id)
-
-let interpritate (tree : Stmt.t) (list : int list) =
+type Mode = Mode1 | Mode2
+/// mode 1 console output, mode 2 to file
+let interpritate (tree : Stmt.t) (list : int list) (mode : Mode) =
     let context = new Context()  
     let l = (new Stack<int> ()) :> IStack<int>
     l.Id <- list
@@ -45,6 +26,7 @@ let interpritate (tree : Stmt.t) (list : int list) =
             (context:> IContext).Push str x
         | Write ( expr ) -> 
             let num = expToSolution context expr
+            if (mode = Mode1) then printfn "%d" num
             output.Push (string (num))
         | Seq (action1, action2) ->
             execute action1
@@ -68,6 +50,4 @@ let interpritate (tree : Stmt.t) (list : int list) =
     while not (output.Empty) do
         str <- str + (output.Pop) + "\n"
     str
-
-
-
+    /// in both modes returns string with result, so in first mode we should ignore result

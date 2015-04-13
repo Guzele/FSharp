@@ -16,10 +16,12 @@ let main argv =
     then printfn "Not enough arguments.\n"
          exit 1
 
+    ///program file
     let inStream = new StreamReader(argv.[0])
     let mutable str = inStream.ReadToEnd ()
     inStream.Dispose ()
 
+    /// delete /r
     let del_sp (str : string) = 
         let mutable s = str
         while (s.IndexOf '\r') >= 0 do
@@ -28,12 +30,12 @@ let main argv =
 
     str <- del_sp str
 
-
     let mutable list = []
     if (argv.Length) = 1
-        then (interpritate (str |> inpToStr |> makeProgramTree) list ) |> printfn "%s"
+        then ignore (interpritate (str |> inpToStr |> makeProgramTree) list Mode1) /// Mode1 - console output
              exit 0
 
+    /// input file
     use stream = new StreamReader (argv.[1])
     let mutable str_list = stream.ReadToEnd ()
     str_list <- del_sp str_list
@@ -41,10 +43,11 @@ let main argv =
 
     list <- List.map (fun x -> int x) (inpToStr str_list)
     if (argv.Length) = 2
-        then (interpritate (str |> inpToStr |> makeProgramTree) list ) |> printfn "%s"
+        then ignore (interpritate (str |> inpToStr |> makeProgramTree) list Mode1)
              exit 0
         else use stream = new StreamWriter (argv.[2])
-             (interpritate (str |> inpToStr |> makeProgramTree) list ) |> string |> ( stream.WriteLine)
+             /// Mode2 is file output 
+             (interpritate (str |> inpToStr |> makeProgramTree) list Mode2) |> ( stream.WriteLine)
 
     0 
 

@@ -48,4 +48,4 @@ input list [2;2]*)
       write(l)} *)
 [<TestCase (";\n:=\nx\n-5\nif\nx\n:=\nl\n12\n;\n:=\nl\n-2\nwrite\nl\n", Result="-2\n")>]
 let intTest str =
-    (interpritate (str |> inpToStr |> makeProgramTree) [2;2] )
+    (interpritate (str |> inpToStr |> makeProgramTree) [2;2] Mode2)
