@@ -25,4 +25,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{24EFDF6E-6C4C-45CB-9A74-4C2B76B60E1E} = {FC6C175E-1EB5-47F3-9F10-F3A63B995BD3}
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		BaseDirectory = ..\f_Interpretator
+	EndGlobalSection
 EndGlobal

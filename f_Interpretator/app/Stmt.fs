@@ -1,4 +1,4 @@
-﻿(* Calculator - sixth week homework
+﻿(* Interpretator of L - sixth week homework
    Author Guzel Garifullina 171
 *)
 
