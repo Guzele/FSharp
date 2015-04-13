@@ -82,13 +82,7 @@ let rec expToSolution context tree =
             |'*' ->  x * y
             |'/' ->  x / y
             |'%' ->  x % y
-            |'^' -> 
-                let rec pow x y =
-                    match y with
-                    | y when (y < 0) -> 0
-                    | 0              -> 1
-                    | _        ->  x * (pow x (y - 1))
-                pow x y
+            |'^' ->  pown x y
             |_   -> failwith "Internal error"
 
     match tree with
