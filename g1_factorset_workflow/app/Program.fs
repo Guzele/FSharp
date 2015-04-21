@@ -4,7 +4,8 @@
    real time      30 minutes
 *)
 
-open Ring
+open Factorset
+
 [<EntryPoint>]
 let main argv = 
     

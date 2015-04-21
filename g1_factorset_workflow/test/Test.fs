@@ -2,7 +2,7 @@
    Author Guzel Garifullina 171
 *)
 module Test
-open Ring
+open Factorset
 open NUnit.Framework
 [<TestCase ( 2, Result = 0)>]
 [<TestCase ( 3, Result = 1)>]

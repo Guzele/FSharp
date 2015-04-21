@@ -1,9 +1,10 @@
-﻿(* Ring - seventh week homework
+﻿(* Factorset - seventh week homework
    Author Guzel Garifullina 171
 *)
-module Ring
 
-type Ring (n) =
+module Factorset
+
+type Factorize (n) =
     let make_ring x =
         let modul = x % n
         if modul < 0 
@@ -12,4 +13,4 @@ type Ring (n) =
     member this.Bind (x, f) = f (make_ring x)
     member this.Return x = (make_ring x)
 
-let ring x = new Ring(x)
+let ring x = new Factorize(x)

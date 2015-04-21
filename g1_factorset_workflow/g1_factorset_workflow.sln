@@ -20,4 +20,7 @@ Global
 		{65948F37-B0F2-40AB-9532-E7DB049C867A}.Release|x86.ActiveCfg = Release|x86
 		{65948F37-B0F2-40AB-9532-E7DB049C867A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		BaseDirectory = ..\g1_factorset_workflow
+	EndGlobalSection
 EndGlobal
