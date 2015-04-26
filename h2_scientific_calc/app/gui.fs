@@ -48,11 +48,12 @@ let findAnswer () =
     if (isBracketCorrect str) && (notEndsOp str) && (isCorNum str)
     then
         let res = calculate str
+        let res_str = string res
         if res < 0.0
         then 
             let mutable list = [5; 2; 0]
             let mutable leng_list = [1; 1; 0]
-            for i = 1 to (str.Length - 1) do
+            for i = 1 to (res_str.Length - 1) do
                 list<- 1 :: list
                 leng_list<- 1 :: leng_list
             str <-  "(" + (string res) + ")"
@@ -61,7 +62,7 @@ let findAnswer () =
         else 
             let mutable list = [0]
             let mutable leng_list = [0]
-            for i = 1 to (str.Length ) do
+            for i = 1 to (res_str.Length ) do
                 list<- 1 :: list
                 leng_list<- 1 :: leng_list
             str <-  string res
