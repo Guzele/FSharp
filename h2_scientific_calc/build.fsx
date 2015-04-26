@@ -1,6 +1,8 @@
-#!packages/FAKE/tools/FAKE.exe
-#r @"packages/FAKE/tools/FakeLib.dll"
+#!tools/FAKE/tools/FAKE.exe
+#r @"tools/FAKE/tools/FakeLib.dll"
 open Fake
+
+RestorePackages()
 
 let buildDir = "./build1/"
 let testDir  = "./test1/"
@@ -14,6 +16,7 @@ Target "BuildApp" (fun _ ->
     |> MSBuildRelease buildDir "Build"
     |> Log "AppBuild-Output: "
 )
+
 
 Target "BuildTest" (fun _ ->
   !! "test/**/*.fsproj"
