@@ -20,7 +20,7 @@ let maximum (arr : 'T []) (threadNum : int)  =
     let right_bord_glob = arr.Length - 1
     let step = (right_bord_glob + 1) / threadNum 
 
-    let maxOfRange i res =
+    let maxOfRange i =
         let left_bord = (i * step)
 
         let mutable right_bord = (i + 1) * step - 1
@@ -38,7 +38,7 @@ let maximum (arr : 'T []) (threadNum : int)  =
 
     let threadArr = Array.init threadNum ( fun i ->
         new Thread ( ThreadStart ( fun _ -> 
-            maxOfRange i  res))
+            maxOfRange i))
         )
     for t in threadArr do
         t.Start()
