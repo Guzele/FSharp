@@ -31,13 +31,8 @@ let array_mult (arr1 : int [,]) (arr2 : int [,]) (threadNum : int)  =
         if right_bord1 >= (threadNum * step1 - 1) 
             then  right_bord1 <- n
 
-        let left_bord2 = (i * step2)
-        let mutable right_bord2 = (i + 1) * step2 - 1
-        if right_bord2>= (threadNum * step2 - 1) 
-            then  right_bord2 <- l
-
         for i = left_bord1 to right_bord1 do
-            for j = left_bord2 to right_bord2 do
+            for j = 0 to l do
                 mult_one_line i j
 
     let threadArr = Array.init threadNum ( fun i ->

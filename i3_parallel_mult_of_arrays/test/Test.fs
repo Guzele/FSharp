@@ -22,4 +22,13 @@ let ``multiplication array to array`` threadNum =
     (array_mult a b threadNum) =  c
 
 
+[<TestCase ( 100, 200, 30, Result = true)>] /// if number of threads more
+let ``multiplication random array to array`` n m l  = 
+    let a = Array2D.init n m (fun i j -> i* j)
+    let b = Array2D.init m l (fun i j -> i - j )
+    let c = (array_mult a b 1) 
+    let d = (array_mult a b 9) 
+    c = d
+
+
 
